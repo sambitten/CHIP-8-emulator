@@ -6,6 +6,7 @@ Memory of 0xFFF bytes
 16 Bit address register which is used to access memory
 16 Bit program counter and a stack
 */
+
 #include <vector>
 
 typedef unsigned char BYTE; //8bit
@@ -39,3 +40,37 @@ WORD GetNextOpcode() {
    m_ProgramCounter+=2 ; //add 2 as opcode is 2 bytes
    return res ;
 }
+
+
+/*
+Using the opcode table found on the chip8 wiki,
+Take the first hex value in the opcode to call relevent function to decode opcode,
+Some cases will need to be broken down further with more switch statements in further functions
+*/
+void ExecuteNextOpcode() {
+	WORD opcode = GetNextOpcode();
+   /*
+	switch (opcode & 0xF000)
+	{
+		case 0x0000: Opcode0(opcode) ; break ;
+		case 0x1000: Opcode1(opcode) ; break ;
+		case 0x2000: Opcode2(opcode) ; break ;
+		case 0x3000: Opcode3(opcode) ; break ;
+		case 0x4000: Opcode4(opcode) ; break ;
+		case 0x5000: Opcode5(opcode) ; break ;
+		case 0x6000: Opcode6(opcode) ; break ;
+		case 0x7000: Opcode7(opcode) ; break ;
+		case 0x8000: Opcode8(opcode) ; break ;
+		case 0x9000: Opcode9(opcode) ; break ;
+		case 0xA000: OpcodeA(opcode) ; break ;
+		case 0xB000: OpcodeB(opcode) ; break ;
+		case 0xC000: OpcodeC(opcode) ; break ;
+		case 0xD000: OpcodeD(opcode) ; break ;
+		case 0xE000: OpcodeE(opcode) ; break ;
+		case 0xF000: OpcodeF(opcode) ; break ;
+
+		default: break ;
+	}
+   */
+}
+
