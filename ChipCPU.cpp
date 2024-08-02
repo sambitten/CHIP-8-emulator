@@ -1,26 +1,19 @@
-/*
-system is made up of:
+#include "ChipCPU.h"
+#include <assert.h>
 
-Memory of 0xFFF bytes
-16 8-Bit data registers, called V0 to VF. VF doubles as the carry flag
-16 Bit address register which is used to access memory
-16 Bit program counter and a stack
-*/
+ChipCPU* ChipCPU::m_Instance = 0 ;
 
-#include <vector>
+ChipCPU* ChipCPU::CreateSingleton(){
+    if (0 == m_Instance)
+        m_Instance = new ChipCPU( ) ;
+    return m_Instance ;
+}
 
-typedef unsigned char BYTE; //8bit
-typedef unsigned short int WORD; //16bit
 
-BYTE m_GameMemory[0xFFF] ; // 0xFFF bytes of memory
-BYTE m_Registers[16] ; // 16 registers, 1 byte each
-WORD m_AddressI ; // the 16-bit address register
-WORD m_ProgramCounter ; // the 16-bit program counter
-std::vector m_Stack; // the 16-bit stack
+ChipCPU::ChipCPU(){}
+ChipCPU::~ChipCPU(){}
 
-BYTE m_ScreenData[64][32];
-
-void CPUReset() {
+void ChipCPU::CPUReset() {
    m_AddressI = 0 ;
    m_ProgramCounter = 0x200 ;
    memset(m_Registers,0,sizeof(m_Registers)) ; // setting registers to 0
@@ -32,7 +25,7 @@ void CPUReset() {
    fclose(in);
 }
 
-WORD GetNextOpcode() {
+WORD ChipCPU::GetNextOpcode() {
    WORD res = 0 ; //0000000000000000
    res = m_GameMemory[m_ProgramCounter] ; 
    res <<= 8 ;
@@ -47,7 +40,7 @@ Using the opcode table found on the chip8 wiki,
 Take the first hex value in the opcode to call relevent function to decode opcode,
 Some cases will need to be broken down further with more switch statements in further functions
 */
-void ExecuteNextOpcode() {
+void ChipCPU::ExecuteNextOpcode() {
 	WORD opcode = GetNextOpcode();
    /*
 	switch (opcode & 0xF000){
@@ -74,24 +67,23 @@ void ExecuteNextOpcode() {
    */
 }
 
-void Opcode0(BYTE opcode){
+void ChipCPU::Opcode0(WORD opcode){
 
 	switch (opcode & 0x000F){
 
 		case 0x0000:disp_clear();
-		case 0x000E:
-			m_ProgramCounter = m_Stack.back;
-			//m_stack.pop_bacl();
+		case 0x000E:Opcode00EE();
 	
 	default: break;
 	}
 }
 
-void disp_clear(){
+void ChipCPU::disp_clear(){
 	//clear screen
 }
 
-
-
-
-
+void ChipCPU::Opcode00EE()
+{
+	m_ProgramCounter = m_Stack.back( ) ;
+	m_Stack.pop_back( ) ;
+}
