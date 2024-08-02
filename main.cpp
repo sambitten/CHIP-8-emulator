@@ -50,8 +50,8 @@ Some cases will need to be broken down further with more switch statements in fu
 void ExecuteNextOpcode() {
 	WORD opcode = GetNextOpcode();
    /*
-	switch (opcode & 0xF000)
-	{
+	switch (opcode & 0xF000){
+
 		case 0x0000: Opcode0(opcode) ; break ;
 		case 0x1000: Opcode1(opcode) ; break ;
 		case 0x2000: Opcode2(opcode) ; break ;
@@ -73,4 +73,25 @@ void ExecuteNextOpcode() {
 	}
    */
 }
+
+void Opcode0(BYTE opcode){
+
+	switch (opcode & 0x000F){
+
+		case 0x0000:disp_clear();
+		case 0x000E:
+			m_ProgramCounter = m_Stack.back;
+			//m_stack.pop_bacl();
+	
+	default: break;
+	}
+}
+
+void disp_clear(){
+	//clear screen
+}
+
+
+
+
 
