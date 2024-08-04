@@ -25,8 +25,7 @@ class ChipCPU
     ChipCPU();
 	  WORD GetNextOpcode();
     void CPUReset();
-	  void ClearScreen();
-    void disp_clear();
+    void Disp_clear();
     void Opcode0(WORD opcode);
     void Opcode00EE();
 

@@ -71,19 +71,24 @@ void ChipCPU::Opcode0(WORD opcode){
 
 	switch (opcode & 0x000F){
 
-		case 0x0000:disp_clear();
+		case 0x0000:Disp_clear();
 		case 0x000E:Opcode00EE();
 	
 	default: break;
 	}
 }
 
-void ChipCPU::disp_clear(){
-	//clear screen
+void ChipCPU::Disp_clear(){
+	for (int x = 0; x < 640; x++){
+		for (int y = 0 ; y < 320; y++){
+			m_ScreenData[y][x][0] = 255 ;
+			m_ScreenData[y][x][1] = 255 ;
+			m_ScreenData[y][x][2] = 255 ;
+		}
+	}
 }
 
-void ChipCPU::Opcode00EE()
-{
+void ChipCPU::Opcode00EE(){
 	m_ProgramCounter = m_Stack.back( ) ;
 	m_Stack.pop_back( ) ;
 }
