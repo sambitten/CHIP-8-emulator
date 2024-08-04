@@ -29,6 +29,7 @@ class ChipCPU
     void Opcode0(WORD opcode);
     void Opcode00EE();
     void Opcode1(WORD opcode);
+    void Opcode2NNN(WORD opcode);
 
     static ChipCPU* m_Instance;
 

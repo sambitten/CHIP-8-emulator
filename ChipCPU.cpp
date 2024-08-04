@@ -88,10 +88,15 @@ void ChipCPU::Disp_clear(){
 }
 
 void ChipCPU::Opcode00EE(){
-	m_ProgramCounter = m_Stack.back( ) ;
-	m_Stack.pop_back( ) ;
+	m_ProgramCounter = m_Stack.back();
+	m_Stack.pop_back();
 }
 
 void ChipCPU::Opcode1(WORD opcode){
-	m_ProgramCounter = opcode & 0x0FFF ;
+	m_ProgramCounter = opcode & 0x0FFF;
+}
+
+void ChipCPU::Opcode2NNN(WORD opcode){
+	m_Stack.push_back(m_ProgramCounter);
+	m_ProgramCounter = opcode & 0x0FFF;
 }
