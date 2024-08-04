@@ -92,11 +92,23 @@ void ChipCPU::Opcode00EE(){
 	m_Stack.pop_back();
 }
 
+// jump to address 
 void ChipCPU::Opcode1(WORD opcode){
 	m_ProgramCounter = opcode & 0x0FFF;
 }
 
-void ChipCPU::Opcode2NNN(WORD opcode){
+// call subroutine 
+void ChipCPU::Opcode2(WORD opcode){
 	m_Stack.push_back(m_ProgramCounter);
 	m_ProgramCounter = opcode & 0x0FFF;
+}
+
+// skip next instruction if VX == NN
+void ChipCPU::Opcode3(WORD opcode){
+	int nn = opcode & 0x00FF ;
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+
+	if (m_Registers[regx] == nn)
+		m_ProgramCounter += 2 ;
 }
