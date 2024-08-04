@@ -9,7 +9,6 @@ ChipCPU* ChipCPU::CreateSingleton(){
     return m_Instance ;
 }
 
-
 ChipCPU::ChipCPU(){}
 ChipCPU::~ChipCPU(){}
 
@@ -91,4 +90,8 @@ void ChipCPU::Disp_clear(){
 void ChipCPU::Opcode00EE(){
 	m_ProgramCounter = m_Stack.back( ) ;
 	m_Stack.pop_back( ) ;
+}
+
+void ChipCPU::Opcode1(WORD opcode){
+	m_ProgramCounter = opcode & 0x0FFF ;
 }
