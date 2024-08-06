@@ -24,6 +24,16 @@ void ChipCPU::CPUReset() {
    fclose(in);
 }
 
+void ChipCPU::Disp_clear(){
+	for (int x = 0; x < 640; x++){
+		for (int y = 0 ; y < 320; y++){
+			m_ScreenData[y][x][0] = 255 ;
+			m_ScreenData[y][x][1] = 255 ;
+			m_ScreenData[y][x][2] = 255 ;
+		}
+	}
+}
+
 WORD ChipCPU::GetNextOpcode() {
    WORD res = 0 ; //0000000000000000
    res = m_GameMemory[m_ProgramCounter] ; 
@@ -77,16 +87,6 @@ void ChipCPU::Opcode0(WORD opcode){
 	}
 }
 
-void ChipCPU::Disp_clear(){
-	for (int x = 0; x < 640; x++){
-		for (int y = 0 ; y < 320; y++){
-			m_ScreenData[y][x][0] = 255 ;
-			m_ScreenData[y][x][1] = 255 ;
-			m_ScreenData[y][x][2] = 255 ;
-		}
-	}
-}
-
 void ChipCPU::Opcode00EE(){
 	m_ProgramCounter = m_Stack.back();
 	m_Stack.pop_back();
@@ -132,5 +132,14 @@ void ChipCPU::Opcode5(WORD opcode){
 
 	if (m_Registers[regx] == m_Registers[regy])
 		m_ProgramCounter += 2 ;
+}
+
+// set VX = NN
+void ChipCPU::Opcode6(WORD opcode){
+	int nn = opcode & 0x00FF ;
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8;
+
+	m_Registers[regx] = nn;
 }
 
