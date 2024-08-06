@@ -122,3 +122,15 @@ void ChipCPU::Opcode4(WORD opcode){
 	if (m_Registers[regx] != nn)
 		m_ProgramCounter += 2 ;
 }
+
+// skip next instruction if VX == VY
+void ChipCPU::Opcode5(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	int regy = opcode & 0x00F0 ;
+	regx >>= 8;
+	regy >>= 8;
+
+	if (m_Registers[regx] == m_Registers[regy])
+		m_ProgramCounter += 2 ;
+}
+
