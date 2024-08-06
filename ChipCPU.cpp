@@ -112,3 +112,13 @@ void ChipCPU::Opcode3(WORD opcode){
 	if (m_Registers[regx] == nn)
 		m_ProgramCounter += 2 ;
 }
+
+// skip next instruction if VX != NN
+void ChipCPU::Opcode4(WORD opcode){
+	int nn = opcode & 0x00FF ;
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+
+	if (m_Registers[regx] != nn)
+		m_ProgramCounter += 2 ;
+}
