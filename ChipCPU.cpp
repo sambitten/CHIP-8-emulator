@@ -128,7 +128,7 @@ void ChipCPU::Opcode5(WORD opcode){
 	int regx = opcode & 0x0F00 ;
 	int regy = opcode & 0x00F0 ;
 	regx >>= 8;
-	regy >>= 8;
+	regy >>= 4;
 
 	if (m_Registers[regx] == m_Registers[regy])
 		m_ProgramCounter += 2 ;
