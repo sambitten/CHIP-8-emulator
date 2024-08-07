@@ -152,14 +152,23 @@ void ChipCPU::Opcode7(WORD opcode){
 	m_Registers[regx] += nn;
 }
 
-// set vx to vy
-void ChipCPU::Opcode8(WORD opcode){
-	int regx = opcode & 0x0F00 ;
-	regx >>= 8 ;
-	int regy = opcode & 0x00F0 ;
-	regy >>= 4 ;
-
-	m_Registers[regx] = m_Registers[regy] ;
+// opcode 8 needs to be broken down further
+void ChipCPU::Opcode8(WORD opcode)
+{
+	/*
+	switch (opcode & 0xF)
+	{
+		case 0x0: Opcode8XY0(opcode) ; break ;
+		case 0x1: Opcode8XY1(opcode) ; break ;
+		case 0x2: Opcode8XY2(opcode) ; break ;
+		case 0x3: Opcode8XY3(opcode) ; break ;
+		case 0x4: Opcode8XY4(opcode) ; break ;
+		case 0x5: Opcode8XY5(opcode) ; break ;
+		case 0x6: Opcode8XY6(opcode) ; break ;
+		case 0x7: Opcode8XY7(opcode) ; break ;
+		case 0xE: Opcode8XYE(opcode) ; break ;
+		default: break ;
+	}
+	*/
 }
-
 
