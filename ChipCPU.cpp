@@ -143,3 +143,12 @@ void ChipCPU::Opcode6(WORD opcode){
 	m_Registers[regx] = nn;
 }
 
+// adds NN to vx. carry not affected
+void ChipCPU::Opcode7(WORD opcode){
+	int nn = opcode & 0x00FF ;
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+
+	m_Registers[regx] += nn;
+}
+
