@@ -152,3 +152,14 @@ void ChipCPU::Opcode7(WORD opcode){
 	m_Registers[regx] += nn;
 }
 
+// set vx to vy
+void ChipCPU::Opcode8(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+	int regy = opcode & 0x00F0 ;
+	regy >>= 4 ;
+
+	m_Registers[regx] = m_Registers[regy] ;
+}
+
+
