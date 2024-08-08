@@ -26,6 +26,7 @@ class ChipCPU
 	  WORD GetNextOpcode();
     void CPUReset();
     void Disp_clear();
+    
     void Opcode0(WORD opcode);
     void Opcode00EE();
     void Opcode1(WORD opcode);
@@ -45,6 +46,7 @@ class ChipCPU
 		void Opcode8XY6(WORD opcode);
 		void Opcode8XY7(WORD opcode);
 		void Opcode8XYE(WORD opcode);
+    void Opcode9(WORD opcode);
 
     static ChipCPU* m_Instance;
 
