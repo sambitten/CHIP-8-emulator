@@ -36,6 +36,15 @@ class ChipCPU
     void Opcode6(WORD opcode);
     void Opcode7(WORD opcode);
     void Opcode8(WORD opcode);
+    void Opcode8XY0(WORD opcode);
+		void Opcode8XY1(WORD opcode);
+		void Opcode8XY2(WORD opcode); 
+		void Opcode8XY3(WORD opcode);
+		void Opcode8XY4(WORD opcode); 
+		void Opcode8XY5(WORD opcode); 
+		void Opcode8XY6(WORD opcode);
+		void Opcode8XY7(WORD opcode);
+		void Opcode8XYE(WORD opcode);
 
     static ChipCPU* m_Instance;
 

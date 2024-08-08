@@ -155,7 +155,7 @@ void ChipCPU::Opcode7(WORD opcode){
 // opcode 8 needs to be broken down further
 void ChipCPU::Opcode8(WORD opcode)
 {
-	/*
+	
 	switch (opcode & 0xF)
 	{
 		case 0x0: Opcode8XY0(opcode) ; break ;
@@ -169,6 +169,6 @@ void ChipCPU::Opcode8(WORD opcode)
 		case 0xE: Opcode8XYE(opcode) ; break ;
 		default: break ;
 	}
-	*/
+	
 }
 
