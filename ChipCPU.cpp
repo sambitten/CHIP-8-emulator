@@ -153,8 +153,7 @@ void ChipCPU::Opcode7(WORD opcode){
 }
 
 // opcode 8 needs to be broken down further
-void ChipCPU::Opcode8(WORD opcode)
-{
+void ChipCPU::Opcode8(WORD opcode){
 	
 	switch (opcode & 0xF)
 	{
@@ -169,6 +168,110 @@ void ChipCPU::Opcode8(WORD opcode)
 		case 0xE: Opcode8XYE(opcode) ; break ;
 		default: break ;
 	}
-	
+}
+
+// set vx to vy
+void ChipCPU::Opcode8XY0(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+	int regy = opcode & 0x00F0 ;
+	regy >>= 4 ;
+
+	m_Registers[regx] = m_Registers[regy] ;
+}
+
+// VX = VX | VY
+void ChipCPU::Opcode8XY1(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+	int regy = opcode & 0x00F0 ;
+	regy >>= 4 ;
+
+	m_Registers[regx] = m_Registers[regx] | m_Registers[regy] ;
+}
+
+// VX = VX & VY
+void ChipCPU::Opcode8XY2(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+	int regy = opcode & 0x00F0 ;
+	regy >>= 4 ;
+
+	m_Registers[regx] = m_Registers[regx] & m_Registers[regy] ;
+}
+
+// VX = VX xor VY
+void ChipCPU::Opcode8XY3(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+	int regy = opcode & 0x00F0 ;
+	regy >>= 4 ;
+
+	m_Registers[regx] = m_Registers[regx] ^ m_Registers[regy] ;
+}
+
+// add vy to vx. set carry to 1 if overflow otherwise 0
+void ChipCPU::Opcode8XY4(WORD opcode){
+	m_Registers[0xF] = 0 ;
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+	int regy = opcode & 0x00F0 ;
+	regy >>= 4 ;
+
+	int value = m_Registers[regx] + m_Registers[regy] ;
+
+	if (value > 255)
+		m_Registers[0xF] = 1 ;
+
+	m_Registers[regx] = m_Registers[regx] + m_Registers[regy] ;
+}
+
+// sub vy from vx. set carry to 1 if no borrow otherwise 0
+void ChipCPU::Opcode8XY5(WORD opcode){
+	m_Registers[0xF] = 1 ;
+
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+	int regy = opcode & 0x00F0 ;
+	regy >>= 4 ;
+
+	if (m_Registers[regx] < m_Registers[regy])
+		m_Registers[0xF] = 0 ;
+
+	m_Registers[regx] = m_Registers[regx] - m_Registers[regy] ;
+}
+
+// Shifts VX right by one. VF is set to the value of the least significant bit of VX before the shift.
+void ChipCPU::Opcode8XY6(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+
+	m_Registers[0xF] = m_Registers[regx] & 0x1 ;
+	m_Registers[regx] >>= 1 ;
+}
+
+// Sets VX to VY minus VX. VF is set to 0 when there's a borrow, and 1 when there isn't.
+void ChipCPU::Opcode8XY7(WORD opcode){
+	m_Registers[0xF] = 1 ;
+
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+	int regy = opcode & 0x00F0 ;
+	regy >>= 4 ;
+
+	if (m_Registers[regy] < m_Registers[regx])
+		m_Registers[0xF] = 0 ;
+
+	m_Registers[regx] = m_Registers[regy] - m_Registers[regx] ;
+}
+
+// Shifts VX left by one. VF is set to the value of the most significant bit of VX before the shift
+void ChipCPU::Opcode8XYE(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+
+	m_Registers[0xF] = m_Registers[regx] >> 7 ;
+	m_Registers[regx] <<= 1 ;
+
 }
 
