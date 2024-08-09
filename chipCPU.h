@@ -16,7 +16,9 @@ class ChipCPU
   public:
     ~ChipCPU();
     static ChipCPU* CreateSingleton();
-    
+
+    void KeyPressed(int key);
+		void KeyReleased(int key);
 	  void ExecuteNextOpcode();
 
 	  BYTE m_ScreenData[320][640][3] ; 
@@ -71,7 +73,8 @@ class ChipCPU
     BYTE m_Registers[16];
     WORD m_AddressI;
     WORD m_ProgramCounter;
-	  std::vector<WORD> m_Stack;			
+	  std::vector<WORD> m_Stack;
+    BYTE m_KeyState[16];
 };
 
 

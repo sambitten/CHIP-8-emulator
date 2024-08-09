@@ -34,6 +34,16 @@ void ChipCPU::Disp_clear(){
 	}
 }
 
+void ChipCPU::KeyPressed(int key)
+{
+	m_KeyState[key] = 1 ;
+}
+
+void ChipCPU::KeyReleased(int key)
+{
+	m_KeyState[key] = 0 ;
+}
+
 WORD ChipCPU::GetNextOpcode() {
    WORD res = 0 ; //0000000000000000
    res = m_GameMemory[m_ProgramCounter] ; 
@@ -43,7 +53,6 @@ WORD ChipCPU::GetNextOpcode() {
    return res ;
 }
 
-
 /*
 Using the opcode table found on the chip8 wiki,
 Take the first hex value in the opcode to call relevent function to decode opcode,
@@ -51,7 +60,7 @@ Some cases will need to be broken down further with more switch statements in fu
 */
 void ChipCPU::ExecuteNextOpcode() {
 	WORD opcode = GetNextOpcode();
-   /*
+   
 	switch (opcode & 0xF000){
 
 		case 0x0000: Opcode0(opcode) ; break ;
@@ -73,7 +82,7 @@ void ChipCPU::ExecuteNextOpcode() {
 
 		default: break ;
 	}
-   */
+   
 }
 
 void ChipCPU::Opcode0(WORD opcode){
@@ -323,7 +332,7 @@ void ChipCPU::OpcodeD(WORD opcode){
 	m_Registers[0xf] = 0 ;
 
 	for (int yline = 0; yline < height; yline++){
-		
+
 		// this is the data of the sprite stored at m_GameMemory[m_AddressI]
 		// the data is stored as a line of bytes so each line is indexed by m_AddressI + yline
 		BYTE data = (m_GameMemory[m_AddressI+yline]);
