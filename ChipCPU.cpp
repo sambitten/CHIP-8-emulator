@@ -285,3 +285,9 @@ void ChipCPU::Opcode9(WORD opcode){
 	if (m_Registers[regx] != m_Registers[regy])
 		m_ProgramCounter += 2 ;
 }
+
+// set I to nnn
+void ChipCPU::OpcodeA(WORD opcode){
+	m_AddressI = opcode & 0x0FFF ;
+}
+

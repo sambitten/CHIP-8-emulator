@@ -47,6 +47,9 @@ class ChipCPU
 		void Opcode8XY7(WORD opcode);
 		void Opcode8XYE(WORD opcode);
     void Opcode9(WORD opcode);
+    void OpcodeA(WORD opcode);
+    void OpcodeB(WORD opcode);
+    void OpcodeC(WORD opcode);
 
     static ChipCPU* m_Instance;
 
