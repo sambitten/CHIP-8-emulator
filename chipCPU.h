@@ -18,6 +18,7 @@ class ChipCPU
 
     void KeyPressed(int key);
 		void KeyReleased(int key);
+    void DecreaseTimers();
 	  void ExecuteNextOpcode();
 
 	  BYTE m_ScreenData[320][640][3] ; 

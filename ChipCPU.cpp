@@ -54,6 +54,17 @@ int ChipCPU::GetKeyPressed(){
 	return res ;
 }
 
+void ChipCPU::DecreaseTimers(){
+	if (m_DelayTimer > 0)
+		m_DelayTimer-- ;
+
+	if (m_SoundTimer > 0)
+		m_SoundTimer--;
+
+	if (m_SoundTimer > 0)
+		//PlayBeep(); function not been implemented
+}
+
 WORD ChipCPU::GetNextOpcode() {
    WORD res = 0 ; //0000000000000000
    res = m_GameMemory[m_ProgramCounter] ; 
