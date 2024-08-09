@@ -16,6 +16,7 @@ class ChipCPU
     ~ChipCPU();
     static ChipCPU* CreateSingleton();
 
+    bool LoadRom(const std::string& romname);
     void KeyPressed(int key);
 		void KeyReleased(int key);
     void DecreaseTimers();

@@ -12,6 +12,26 @@ ChipCPU* ChipCPU::CreateSingleton(){
 ChipCPU::ChipCPU(){}
 ChipCPU::~ChipCPU(){}
 
+bool ChipCPU::LoadRom(const std::string& romname){
+    CPUReset();
+	Disp_clear();
+
+    //load in the game
+    FILE* in ;
+    in = fopen(romname.c_str(), "rb") ;
+
+    // check rom exists
+    if (0 == in)
+    {
+        return false ;
+    }
+
+    fread(&m_GameMemory[0x200], ROMSIZE, 1, in) ;
+    fclose(in) ;
+
+    return true ;
+}
+
 void ChipCPU::CPUReset() {
     m_AddressI = 0;
     m_ProgramCounter = 0x200 ;
