@@ -17,59 +17,59 @@ bool ChipCPU::LoadRom(const std::string& romname){
 	Disp_clear();
 
     //load in the game
-    FILE* in ;
-    in = fopen(romname.c_str(), "rb") ;
+    FILE* in;
+    in = fopen(romname.c_str(), "rb");
 
     // check rom exists
     if (0 == in)
     {
-        return false ;
+        return false;
     }
 
-    fread(&m_GameMemory[0x200], ROMSIZE, 1, in) ;
-    fclose(in) ;
+    fread(&m_GameMemory[0x200], ROMSIZE, 1, in);
+    fclose(in);
 
-    return true ;
+    return true;
 }
 
 void ChipCPU::CPUReset() {
     m_AddressI = 0;
-    m_ProgramCounter = 0x200 ;
-    memset(m_Registers,0,sizeof(m_Registers)) ;
-    memset(m_GameMemory,0,sizeof(m_GameMemory)) ;
-	memset(m_KeyState,0,sizeof(m_KeyState)) ;
-	m_DelayTimer = 0 ;
-	m_SoundTimer = 0 ;
+    m_ProgramCounter = 0x200;
+    memset(m_Registers,0,sizeof(m_Registers));
+    memset(m_GameMemory,0,sizeof(m_GameMemory));
+	memset(m_KeyState,0,sizeof(m_KeyState));
+	m_DelayTimer = 0;
+	m_SoundTimer = 0;
 }
 
 void ChipCPU::Disp_clear(){
 	for (int x = 0; x < 640; x++){
 		for (int y = 0 ; y < 320; y++){
-			m_ScreenData[y][x][0] = 255 ;
-			m_ScreenData[y][x][1] = 255 ;
-			m_ScreenData[y][x][2] = 255 ;
+			m_ScreenData[y][x][0] = 255;
+			m_ScreenData[y][x][1] = 255;
+			m_ScreenData[y][x][2] = 255;
 		}
 	}
 }
 
 void ChipCPU::KeyPressed(int key){
-	m_KeyState[key] = 1 ;
+	m_KeyState[key] = 1;
 }
 
 void ChipCPU::KeyReleased(int key){
-	m_KeyState[key] = 0 ;
+	m_KeyState[key] = 0;
 }
 
 int ChipCPU::GetKeyPressed(){
-	int res = -1 ;
+	int res = -1;
 
 	for (int i = 0 ; i < 16; i++)
 	{
 		if (m_KeyState[i] > 0)
-			return i ;
+			return i;
 	}
 
-	return res ;
+	return res;
 }
 
 void ChipCPU::DecreaseTimers(){
