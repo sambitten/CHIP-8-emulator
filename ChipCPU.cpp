@@ -366,3 +366,30 @@ void ChipCPU::OpcodeD(WORD opcode)
 		}
 	}
 }
+
+void ChipCPU::OpcodeE(WORD opcode)
+{
+	switch(opcode & 0xF)
+	{
+		case 0xE: OpcodeEX9E(opcode) ; break ;
+		case 0x1: OpcodeEXA1(opcode) ; break ;
+		default:break ;
+	}
+}
+
+void ChipCPU::OpcodeF(WORD opcode)
+{
+	switch(opcode & 0xFF)
+	{
+		case 0x07: OpcodeFX07(opcode) ; break ;
+		case 0x0A: OpcodeFX0A(opcode) ; break ;
+		case 0x15: OpcodeFX15(opcode) ; break ;
+		case 0x18: OpcodeFX18(opcode) ; break ;
+		case 0x1E: OpcodeFX1E(opcode) ; break ;
+		case 0x29: OpcodeFX29(opcode) ; break ;
+		case 0x33: OpcodeFX33(opcode) ; break ;
+		case 0x55: OpcodeFX55(opcode) ; break ;
+		case 0x65: OpcodeFX65(opcode) ; break ;
+		default: break ;
+	}
+}
