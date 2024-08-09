@@ -291,3 +291,8 @@ void ChipCPU::OpcodeA(WORD opcode){
 	m_AddressI = opcode & 0x0FFF ;
 }
 
+// jump to address NNN + V0
+void ChipCPU::OpcodeB(WORD opcode){
+	int nnn = opcode & 0x0FFF ;
+	m_ProgramCounter = m_Registers[0] + nnn ;
+}
