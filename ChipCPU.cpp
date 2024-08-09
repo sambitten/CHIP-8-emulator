@@ -305,3 +305,64 @@ void ChipCPU::OpcodeC(WORD opcode){
 
 	m_Registers[regx] = rand() & nn ;
 }
+
+// Draws a sprite at coordinate (VX, VY) that has a width of 8 pixels and a height of N pixels.
+// As described above, VF is set to 1 if any screen pixels are flipped from set to unset when the sprite is drawn,
+// and to 0 if that doesn't happen
+void ChipCPU::OpcodeD(WORD opcode)
+{
+	const int SCALE = 10 ;
+	int regx = opcode & 0x0F00 ;
+	regx = regx >> 8 ;
+	int regy = opcode & 0x00F0 ;
+	regy = regy >> 4 ;
+
+	int coordx = m_Registers[regx] * SCALE;
+	int coordy = m_Registers[regy] * SCALE ;
+	int height = opcode & 0x000F ;
+
+	m_Registers[0xf] = 0 ;
+
+	for (int yline = 0; yline < height; yline++)
+	{
+		// this is the data of the sprite stored at m_GameMemory[m_AddressI]
+		// the data is stored as a line of bytes so each line is indexed by m_AddressI + yline
+		BYTE data = (m_GameMemory[m_AddressI+yline]);
+
+		// for each of the 8 pixels in the line
+		int xpixel = 0 ;
+		int xpixelinv = 7 ;
+		for(xpixel = 0; xpixel < 8; xpixel++, xpixelinv--)
+		{
+			
+			// is ths pixel set to 1? If so then the code needs to toggle its state
+			int mask = 1 << xpixelinv ;
+			if (data & mask)
+			{
+				int x = (xpixel*SCALE) + coordx ;
+				int y = coordy + (yline*SCALE) ;
+
+				int colour = 0 ;
+
+				// a collision has been detected
+				if (m_ScreenData[y][x][0] == 0)
+				{
+					colour = 255 ;
+					m_Registers[15]=1;
+				}
+
+				// colour the pixel
+				for (int i = 0; i < SCALE; i++)
+				{
+					for (int j = 0; j < SCALE; j++)
+					{
+						m_ScreenData[y+i][x+j][0] = colour ;
+						m_ScreenData[y+i][x+j][1] = colour ;
+						m_ScreenData[y+i][x+j][2] = colour ;
+					}
+				}
+
+			}
+		}
+	}
+}

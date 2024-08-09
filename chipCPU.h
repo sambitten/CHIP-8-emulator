@@ -50,6 +50,7 @@ class ChipCPU
     void OpcodeA(WORD opcode);
     void OpcodeB(WORD opcode);
     void OpcodeC(WORD opcode);
+    void OpcodeD(WORD opcode);
 
     static ChipCPU* m_Instance;
 
