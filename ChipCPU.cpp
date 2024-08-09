@@ -413,3 +413,101 @@ void ChipCPU::OpcodeEXA1(WORD opcode){
 	if (m_KeyState[key] == 0)
 		m_ProgramCounter+=2 ;
 }
+
+// Sets VX to the value of the delay timer.
+void ChipCPU::OpcodeFX07(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+
+	m_Registers[regx] = m_DelayTimer ;
+}
+
+// A key press is awaited, and then stored in VX.
+void ChipCPU::OpcodeFX0A(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+
+	int keypressed = GetKeyPressed( ) ;
+
+	if (keypressed == -1)
+	{
+		m_ProgramCounter -= 2 ;
+	}
+	else
+	{
+		m_Registers[regx] = keypressed ;
+	}
+}
+
+// delay to vx
+void ChipCPU::OpcodeFX15(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+
+	m_DelayTimer = m_Registers[regx] ;
+}
+
+// sound to vx
+void ChipCPU::OpcodeFX18(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+
+	m_SoundTimer = m_Registers[regx] ;
+}
+
+// adds vx to I
+void ChipCPU::OpcodeFX1E(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+
+	m_AddressI += m_Registers[regx] ;
+}
+
+//Sets I to the location of the sprite for the character in VX. Characters 0-F (in hexadecimal) are represented by a 4x5 font.
+void ChipCPU::OpcodeFX29(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+	m_AddressI = m_Registers[regx]*5;
+}
+
+//Stores the Binary-coded decimal representation of VX at the addresses I, I plus 1, and I plus 2.
+void ChipCPU::OpcodeFX33(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+
+	int value = m_Registers[regx] ;
+
+	int hundreds = value / 100 ;
+	int tens = (value / 10) % 10 ;
+	int units = value % 10 ;
+
+	m_GameMemory[m_AddressI] = hundreds ;
+	m_GameMemory[m_AddressI+1] = tens ;
+	m_GameMemory[m_AddressI+2] = units ;
+}
+
+// Stores V0 to VX in memory starting at address I.
+void ChipCPU::OpcodeFX55(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+
+	for (int i = 0 ; i <= regx; i++)
+	{
+		m_GameMemory[m_AddressI+i] = m_Registers[i] ;
+	}
+
+	m_AddressI= m_AddressI+regx+1 ;
+}
+
+//Fills V0 to VX with values from memory starting at address I.
+void ChipCPU::OpcodeFX65(WORD opcode){
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+
+	for (int i = 0 ; i <= regx; i++)
+	{
+		m_Registers[i] = m_GameMemory[m_AddressI+i]  ;
+	}
+
+	m_AddressI= m_AddressI+regx+1 ;
+}
