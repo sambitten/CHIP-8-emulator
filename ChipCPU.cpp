@@ -296,3 +296,12 @@ void ChipCPU::OpcodeB(WORD opcode){
 	int nnn = opcode & 0x0FFF ;
 	m_ProgramCounter = m_Registers[0] + nnn ;
 }
+
+// set vx to rand + NN
+void ChipCPU::OpcodeC(WORD opcode){
+	int nn = opcode & 0x00FF ;
+	int regx = opcode & 0x0F00 ;
+	regx >>= 8 ;
+
+	m_Registers[regx] = rand() & nn ;
+}
