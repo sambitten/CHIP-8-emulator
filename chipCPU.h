@@ -12,7 +12,6 @@ const int ROMSIZE = 0xFFF ;
 
 class ChipCPU
 {
-
   public:
     ~ChipCPU();
     static ChipCPU* CreateSingleton();
@@ -28,6 +27,8 @@ class ChipCPU
 	  WORD GetNextOpcode();
     void CPUReset();
     void Disp_clear();
+    void PlayBeep();
+		int	GetKeyPressed();
     
     void Opcode0(WORD opcode);
     void Opcode00EE();
@@ -75,6 +76,8 @@ class ChipCPU
     WORD m_ProgramCounter;
 	  std::vector<WORD> m_Stack;
     BYTE m_KeyState[16];
+    BYTE m_DelayTimer;
+		BYTE m_SoundTimer;
 };
 
 

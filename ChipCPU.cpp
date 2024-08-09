@@ -34,14 +34,24 @@ void ChipCPU::Disp_clear(){
 	}
 }
 
-void ChipCPU::KeyPressed(int key)
-{
+void ChipCPU::KeyPressed(int key){
 	m_KeyState[key] = 1 ;
 }
 
-void ChipCPU::KeyReleased(int key)
-{
+void ChipCPU::KeyReleased(int key){
 	m_KeyState[key] = 0 ;
+}
+
+int ChipCPU::GetKeyPressed(){
+	int res = -1 ;
+
+	for (int i = 0 ; i < 16; i++)
+	{
+		if (m_KeyState[i] > 0)
+			return i ;
+	}
+
+	return res ;
 }
 
 WORD ChipCPU::GetNextOpcode() {
