@@ -13,15 +13,13 @@ ChipCPU::ChipCPU(){}
 ChipCPU::~ChipCPU(){}
 
 void ChipCPU::CPUReset() {
-   m_AddressI = 0 ;
-   m_ProgramCounter = 0x200 ;
-   memset(m_Registers,0,sizeof(m_Registers)) ; // setting registers to 0
-
-   // load in the game
-   FILE *in;
-   in = fopen( "c:/INVADERS", "rb" ); //game location
-   fread( &m_GameMemory[0x200], 0xfff, 1, in); 
-   fclose(in);
+    m_AddressI = 0;
+    m_ProgramCounter = 0x200 ;
+    memset(m_Registers,0,sizeof(m_Registers)) ;
+    memset(m_GameMemory,0,sizeof(m_GameMemory)) ;
+	memset(m_KeyState,0,sizeof(m_KeyState)) ;
+	m_DelayTimer = 0 ;
+	m_SoundTimer = 0 ;
 }
 
 void ChipCPU::Disp_clear(){
@@ -61,9 +59,9 @@ void ChipCPU::DecreaseTimers(){
 	if (m_SoundTimer > 0)
 		m_SoundTimer--;
 
-	if (m_SoundTimer > 0)
+	if (m_SoundTimer > 0){}
 		//PlayBeep(); function not been implemented
-}
+} 
 
 WORD ChipCPU::GetNextOpcode() {
    WORD res = 0 ; //0000000000000000
